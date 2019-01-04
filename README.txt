@@ -3,6 +3,6 @@ Other users can vote on asked questions and they toggle to the top or bottom of 
 The app allow users to share knowledge and skills in the field of programming.
 
 link
-https://timlubanga.github.io/questioner/home.html
+https://timlubanga.github.io/UI/home.html
  
 
