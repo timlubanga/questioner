@@ -2,7 +2,7 @@ Questioner helps the meetup organizer prioritize questions to be answered.Questi
 Other users can vote on asked questions and they toggle to the top or bottom of the log.
 The app allow users to share knowledge and skills in the field of programming.
 
-Link
+link
 https://timlubanga.github.io/questioner/home.html
  
 
