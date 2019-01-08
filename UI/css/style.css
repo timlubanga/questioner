@@ -28,6 +28,7 @@ overflow:hidden;
 
 
 
+
 }
 header{
   background:#35424a;
@@ -39,12 +40,14 @@ header{
 ul{
   margin: 0;
   padding:0;
+
 }
 header a{
   color:white;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 14px;
+
 }
 
 header li{
@@ -52,6 +55,7 @@ header li{
   display:inline;
   padding: 0 20px 0 20px;
   border-radius: 5px;
+
 
 }
 header #branding{
@@ -64,6 +68,7 @@ header nav{
   float: right;
   margin-top: 10px;
   border-bottom: 1px solid;
+
 
 
 }
@@ -312,6 +317,8 @@ footer{
 
 
 
+
+
 }
 /* Main column */
 
@@ -321,6 +328,7 @@ footer{
   height: auto;
   font-family:serif;
   margin-right: 10px;
+  
 
 
 }
@@ -342,6 +350,7 @@ ul#user-action li{
   list-style: none;
   display: inline;
   margin-left: 20px;
+
 
 
 }
