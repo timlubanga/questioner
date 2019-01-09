@@ -33,6 +33,19 @@ class Users(Resource):
 		   	"data" : users}),201)
 		else:
 			return make_response(jsonify({"status":409,"error":"the record exists"}),409)
+		#get one user
+	def get(self,username):
+		user=[user for user in users if user["username"]==username]
+		if len(user)==0:
+			return make_response(jsonify({
+		   	"status" : 200,
+		   	"error" : "user does not exist"}),200)
+		else:
+			return make_response(jsonify({
+		   	"status" : 200,
+		   	"data" : user}),200)
+
+
 
 
 
