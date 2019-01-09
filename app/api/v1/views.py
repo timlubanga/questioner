@@ -13,16 +13,6 @@ class Users(Resource):
 	def __init__(self):
 	   self.id = len(users) + 1
 	   #get a list of users
-	def get(self):
-		if len(users)>0:
-			return make_response(jsonify({
-		   "status" : 200,
-		   "data" : users
-	   }),200)
-		else:
-			return make_response(jsonify({
-				"status":200, 
-				"error":"the list is empty"}),200)
 
 	   #create a new user
 	def post(self,username):
