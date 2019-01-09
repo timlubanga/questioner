@@ -44,7 +44,31 @@ class Users(Resource):
 			return make_response(jsonify({
 		   	"status" : 200,
 		   	"data" : user}),200)
+meetups=[]
+class Meetups(Resource):
+	def __init__(self):
+	   self.id = len(users) + 1
 
+	def post(self,topic_name):
+		meetup=[meetup for meetup in meetups if meetup["topic"]==topic_name]
+		if len(meetup)==0:
+			new_meetup={
+					"id":self.id,
+					"CreatedOn":datetime.datetime.now(),
+					"location":request.json["location"],
+					"images":request.json["images"],
+					"topic":request.json["topic"],
+					"HappeningOn":request.json["HappeningOn"],
+					"Tags":request.json["Tags"]
+					}
+			meetups.append(new_meetup)
+			return make_response(jsonify({
+		   	"status" : 201,
+		   	"data" : meetups}),201)
+		else:
+			return make_response(jsonify({
+		   	"status" : 409,
+		   	"error" : "the record already exists"}),409)
 
 
 
