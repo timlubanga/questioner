@@ -69,10 +69,18 @@ class Testsystem(unittest.TestCase):
 			self.assertEqual(len(expected["data"]),1)
 
 	def test_post_duplicate_meetup_record(self):
-		pass
-
-	def test_incorrect_meetup_record(self):
-		pass
+		with create_app().test_client() as c:
+			url="/api/v1/meetup/code fest"
+			new_meetup={
+			"images":"images",
+			"topic":"code fest",
+			"location":"ihub",
+			"HappeningOn":"12/1/2018",
+			"Tags":"Tags"}
+			response=c.post(url,data=json.dumps(new_meetup), headers={"Content-Type":"application/json"})
+			expected=json.loads(response.get_data())
+			self.assertEqual(expected["error"],"the record already exists")
+			self.assertEqual(response.status_code,409)
 
 	def test_retrieve_ameetup_record(self):
 		pass
