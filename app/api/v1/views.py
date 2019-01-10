@@ -105,7 +105,18 @@ class Questions(Resource):
 			return make_response(jsonify({
 		   	"status" : 409,
 		   	"error" : "the record already exists"}),409)
-		   	#get a specific meetup record
+		  
+		  #get a specific question
+	def get(self,title_name):
+		question=[question for question in questions if question["title"]==title_name]
+		if len(question)==0:
+			return make_response(jsonify({
+		   	"status" : 200,
+		   	"error" : "record does not exist"}),200)
+		else:
+			return make_response(jsonify({
+		   	"status" : 200,
+		   	"data" : question}),200)
 	
 
 
