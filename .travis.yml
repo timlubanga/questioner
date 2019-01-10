@@ -7,5 +7,4 @@ install:
     cache:pip
 script:
     -python tests/test_system.py
-after-success:
-    -coveralls
+
