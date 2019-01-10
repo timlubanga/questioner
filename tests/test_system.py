@@ -35,7 +35,7 @@ class Testsystem(unittest.TestCase):
 			self.assertEqual(expe["error"], "the record exists")
 
 
-	'''def test_retrieve_new_user(self):
+	def test_retrieve_new_user(self):
 		with create_app().test_client() as c:
 			url="/api/v1/@timothy"
 			response=c.get(url)
@@ -51,7 +51,7 @@ class Testsystem(unittest.TestCase):
 			response=c.get(url)
 			expected=json.loads(response.get_data())
 			self.assertEqual(response.status_code,200)
-			self.assertEqual(expected["error"],"the user does not exist")
+			self.assertEqual(expected["error"],"user does not exist")
 
 	def test_post_anew_meetup_record(self):
 		with create_app().test_client() as c:
@@ -59,8 +59,9 @@ class Testsystem(unittest.TestCase):
 			new_meetup={
 			"images":"images",
 			"topic":"code fest",
+			"location":"ihub",
 			"HappeningOn":"12/1/2018",
-			"Tages":"Tages"}
+			"Tags":"Tags"}
 			response=c.post(url,data=json.dumps(new_meetup), headers={"Content-Type":"application/json"})
 			expected=json.loads(response.get_data())
 
@@ -78,6 +79,6 @@ class Testsystem(unittest.TestCase):
 
 	def test_retreive_non_exisiting_meetup_record(self):
 		pass
-'''
+
 if __name__ == '__main__':
 	unittest.main()
