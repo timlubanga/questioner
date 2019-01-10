@@ -1,4 +1,4 @@
-https://travis-ci.com/timlubanga/questioner.svg?branch=develop
+[![Build Status](https://travis-ci.org/timlubanga/questioner.svg?branch=develop)](https://travis-ci.org/timlubanga/questioner)
 
 Questioner helps the meetup organizer prioritize
 questions to be answered.Questions with the highest number of upvotes are prioritized. Other users can vote on asked questions and they bubble to the top
