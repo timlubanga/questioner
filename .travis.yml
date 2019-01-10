@@ -1,9 +1,11 @@
 language:python
 python:
-  -"3.6.7"
-  -"nightly"
+    -"3.6.7"
+    -"nightly"
 install:
-  -pip install -r requirements.txt
-cache:pip
+    -pip install -r requirements.txt
+    cache:pip
 script:
-  -python tests/test_system.py
+    -python tests/test_system.py
+after-success:
+    -coveralls
