@@ -80,6 +80,13 @@ class Meetups(Resource):
 			return make_response(jsonify({
 		   	"status" : 200,
 		   	"data" : meetups}),200)
+
+	def put(self,topic_name):
+		new_meetup=[meetup for meetup in meetups if meetup["topic"]==topic_name]
+		new_meetup[0]["HappeningOn"]=request.json["HappeningOn"]
+		new_meetup[0]["Tags"]=request.json["Tags"]
+		return make_response(jsonify({"status":202,"data":meetups}), 202)
+
 questions=[]
 class Questions(Resource):
 	def __init__(self):
