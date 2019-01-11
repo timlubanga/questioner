@@ -87,6 +87,11 @@ class Meetups(Resource):
 		new_meetup[0]["Tags"]=request.json["Tags"]
 		return make_response(jsonify({"status":202,"data":meetups}), 202)
 
+	def delete(self, topic_name):
+		meetup=[meetup for meetup in meetups if meetup["topic"]==topic_name]
+		meetups.remove(meetup[0])
+		return make_response(jsonify({"status":200,"data":meetups}), 200)  
+
 questions=[]
 class Questions(Resource):
 	def __init__(self):
