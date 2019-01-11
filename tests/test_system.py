@@ -7,6 +7,7 @@ sys.path.append(topdir)
 from app import create_app
 
 class Testsystem(unittest.TestCase):
+	
 
 	def test_register_new_user(self):
 		url="/api/v1/@timothy"
@@ -28,7 +29,7 @@ class Testsystem(unittest.TestCase):
 			self.assertEqual(expected["data"][0]["username"],"@timothy")
 
 
-
+			#test post exisitinng record
 			resp=c.post(url,data=json.dumps(new_user), headers={"Content-Type":"application/json"})
 			expe=json.loads(resp.get_data())
 			self.assertEqual(resp.status_code,409)
@@ -67,6 +68,14 @@ class Testsystem(unittest.TestCase):
 
 			self.assertEqual(response.status_code, 201)
 			self.assertEqual(len(expected["data"]),1)
+	def test_retrieve_ameetup_record(self):
+		with create_app().test_client() as c:
+			url="/api/v1/meetup/code fest"
+			response=c.get(url)
+			expected=json.loads(response.get_data())
+
+			self.assertEqual(response.status_code,200)
+			self.assertEqual(expected["data"][0]["HappeningOn"],"12/1/2018")
 
 	def test_post_duplicate_meetup_record(self):
 		with create_app().test_client() as c:
@@ -82,11 +91,38 @@ class Testsystem(unittest.TestCase):
 			self.assertEqual(expected["error"],"the record already exists")
 			self.assertEqual(response.status_code,409)
 
-	def test_retrieve_ameetup_record(self):
-		pass
-
 	def test_retreive_non_exisiting_meetup_record(self):
-		pass
+		with create_app().test_client() as c:
+			url="/api/v1/meetup/hackathon"
+			response=c.get(url)
+			expected=json.loads(response.get_data())
+
+			self.assertEqual(response.status_code,200)
+			self.assertEqual(expected["error"], "record does not exist")
+
+	def test_updating_new_record(self):
+		with create_app().test_client() as c:
+			url="/api/v1/meetup/code fest"
+			new_meetup={
+			"HappeningOn":"12/1/2019",
+			"Tags":["tag1","tag2"]}
+			response=c.put(url,data=json.dumps(new_meetup), headers={"Content-Type":"application/json"})
+			expected=json.loads(response.get_data())
+
+			self.assertEqual(response.status_code,202)
+			self.assertEqual(expected["data"][0]["HappeningOn"],"12/1/2019")
+			self.assertEqual(expected["data"][0]["Tags"],["tag1","tag2"])
+	
+			#test deleting a meetup record
+			resp=c.delete(url)
+			expected=json.loads(resp.get_data())
+			self.assertEqual(resp.status_code,200)
+			self.assertEqual(len(expected["data"]),0)
+
+
+
+
+
 
 if __name__ == '__main__':
 	unittest.main()
