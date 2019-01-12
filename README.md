@@ -21,8 +21,8 @@ or bottom of the log. The app allow users to share knowledge and skills in the f
 | Method | Endpoint | functionality |
 |--------|----------|----------|
 |  POST  | `/api/v1/users/<username> `    |   Create a user account       |
-|  POST  | `/api/v1/meetup/<username>`     |   Create a meetup record       |
-|  GET  | `/api/v1/meetup/<username> `   | Fetch a specific meetup record. |
+|  POST  | `/api/v1/meetup/<topic_name>`     |   Create a meetup record       |
+|  GET  | `/api/v1/meetup/<topic_name> `   | Fetch a specific meetup record. |
 |  POST  | `/api/v1/questions/<title_name> `    |   Create a question for a specific meetup.       |
 |  Update | `/api/v1/questions/<title_name>    |  Update question record      |
 |  delete | `/api/v1/questions/<title_name`   |  delete a user record
