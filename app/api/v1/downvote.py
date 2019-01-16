@@ -12,7 +12,7 @@ class Downvotes(Resource):
 		   		"status" : 200,
 		   		"data" : question}),200)
 
-		   	else:
+			else:
 				return make_response(jsonify({
 		   		"status" : 404,
 		   		"error" : "question does not exist"}),404)
