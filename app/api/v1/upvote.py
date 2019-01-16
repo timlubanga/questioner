@@ -20,3 +20,5 @@ class Upvotes(Resource):
 		return make_response(jsonify({
 		   		"status" : 404,
 		   		"error" : "the database is empty"}),404)
+
+		

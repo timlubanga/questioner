@@ -44,19 +44,7 @@ class Question(Resource):
 			return make_response(jsonify({
 		   	"status" : 200,
 		   	"data" : question}),200)
-		 #upvote a user
-
-	def patch (self,title_name):
-		for question in questions:
-			if question["title"] == title_name:
-				question["votes"] = question["votes"]+1
-				return make_response(jsonify({
-		   	"status" : 200,
-		   	"data" : question}),200)
-
-		return make_response(jsonify({
-		   	"status" : 404,
-		   	"error" : "question does not exist"}),404)
+		
 
 	
 
