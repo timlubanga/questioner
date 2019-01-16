@@ -16,7 +16,8 @@ class TestMeetups(unittest.TestCase):
 		response=self.app.get(self.url)
 		expected=json.loads(response.get_data())
 		self.assertEqual(response.status_code,200)
-		self.assertEqual(expected["message"],"no record exist")
+		self.assertEqual(expected["data"][0]["body"], "TDD best practices?")
+		self.assertEqual(len(expected["data"]),1)
 
 if __name__ == '__main__':
 	unittest.main()

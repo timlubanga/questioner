@@ -10,8 +10,8 @@ class Testdownvote(unittest.TestCase):
 
 	def setUp(self):
 		self.app=create_app().test_client()
-		self.url="api/v1/question/TDD"
-		self.url_1="api/v1/question/downvote/TDD"
+		self.url="api/v1/question/javascript"
+		self.url_1="api/v1/question/downvote/javascript"
 		self.url_2="api/v1/question/downvote/code fest"
 		self.new_question={
 							"CreatedBy":"john",
