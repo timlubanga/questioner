@@ -21,7 +21,8 @@ class Question(Resource):
 					"meetup_id":request.json["meetup_id"],
 					"title":title_name,
 					"body":request.json["body"],
-					"votes":0
+					"upvotes":0,
+					"downvotes":0
 					}
 			questions.append(new_question)
 			return make_response(jsonify({
@@ -43,6 +44,8 @@ class Question(Resource):
 			return make_response(jsonify({
 		   	"status" : 200,
 		   	"data" : question}),200)
+		
+
 	
 
 

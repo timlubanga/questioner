@@ -23,10 +23,10 @@ class Testsystem(unittest.TestCase):
 		expected=json.loads(response.get_data())
 
 		self.assertEqual(response.status_code,201)
-		self.assertEqual(len(expected["data"]), 1)
-		self.assertEqual(expected["data"][0]["title"],"TDD")	
-		self.assertEqual(expected["data"][0]["body"],"TDD best practices?")	
-
+		self.assertEqual(len(expected["data"]), 2)
+		self.assertEqual(expected["data"][1]["title"],"TDD")	
+		self.assertEqual(expected["data"][1]["body"],"TDD best practices?")	
+	
 	def test_post_duplicate_record(self):
 		response=self.app.post(self.url,data=json.dumps(self.new_question), headers={"Content-Type":"application/json"})
 		expected=json.loads(response.get_data())
