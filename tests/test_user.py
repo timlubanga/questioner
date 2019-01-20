@@ -10,15 +10,16 @@ class Testsystem(unittest.TestCase):
 
 	def setUp(self):
 		self.app=create_app().test_client()
-		self.url="/api/v1/user/@timothy"
-		self.url_1="/api/v1/user/@tim"
+		self.url="/api/v1/user"
 		self.new_user={
 				"firstname":"timothy",
 				"lastname":"lubanga",
 				"othernames":"mutanyi",
+				"username":"@timothy",
 				"email":"timlubanga@gmail.com",
 				"phonenumber":"0714568338"
 				}
+		self.user={"username":"@tim"}
 
 	def test_register_new_user(self):
 		response=self.app.post(self.url,data=json.dumps(self.new_user), headers={"Content-Type":"application/json"})
@@ -37,7 +38,7 @@ class Testsystem(unittest.TestCase):
 
 
 	def test_retrieve_new_user(self):
-		response=self.app.get(self.url)
+		response=self.app.get(self.url,data=json.dumps(self.new_user), headers={"Content-Type":"application/json"})
 		expected=json.loads(response.get_data())
 
 		self.assertEqual(response.status_code,200)
@@ -46,9 +47,8 @@ class Testsystem(unittest.TestCase):
 
 	def test_retrieve_non_exsiting_user(self):
 		
-		response=self.app.get(self.url_1)
+		response=self.app.get(self.url,data=json.dumps(self.user), headers={"Content-Type":"application/json"})
 		expected=json.loads(response.get_data())
-		self.assertEqual(response.status_code,200)
 		self.assertEqual(expected["error"],"user does not exist")
 
 	
