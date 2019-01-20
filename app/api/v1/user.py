@@ -2,7 +2,7 @@ from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
 from .models import users
 import datetime
-from utils.validator import UserSchema
+from .utils.validator import UserSchema
 
 app = Flask(__name__)
 api = Api(app)

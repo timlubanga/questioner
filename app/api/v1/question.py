@@ -1,7 +1,7 @@
 from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
 from .models import questions
-from utils.validator import QuestionSchema
+from .utils.validator import QuestionSchema
 
 import datetime
 
