@@ -14,13 +14,13 @@ from .meetup_rsvp import RSVP
 
 version1=Blueprint("api",__name__, url_prefix="/api/v1")
 api=Api(version1)
-api.add_resource(User,'/user/<username>')
-api.add_resource(Meetup,'/meetup/<topic_name>')
-api.add_resource(Question,'/question/<title_name>')
+api.add_resource(User,'/user')
+api.add_resource(Meetup,'/meetup')
+api.add_resource(Question,'/question')
 api.add_resource(Meetups,'/meetups')
 api.add_resource(Questions,'/questions')
 api.add_resource(Users,'/users')
-api.add_resource(Upvotes,'/question/upvote/<title_name>')
-api.add_resource(Downvotes,'/question/downvote/<title_name>')
+api.add_resource(Upvotes,'/question/upvote')
+api.add_resource(Downvotes,'/question/downvote')
 api.add_resource(RSVP,'/meetups/<topic_name>/rsvp')
 
