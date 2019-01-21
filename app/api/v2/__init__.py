@@ -12,8 +12,8 @@ from .upvote import Upvotes
 from .downvote import Downvotes
 from .meetup_rsvp import RSVP
 
-version1=Blueprint("api",__name__, url_prefix="/api/v1")
-api=Api(version1)
+version2=Blueprint("api",__name__, url_prefix="/api/v2")
+api=Api(version2)
 api.add_resource(User,'/user')
 api.add_resource(Meetup,'/meetup')
 api.add_resource(Question,'/question')
