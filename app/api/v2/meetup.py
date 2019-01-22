@@ -59,8 +59,7 @@ class Meetup(Resource):
 		   	"status":404,
 		   	"message" : "record not found"}),404)
 
-	def put(self):
-		record_id=request.json["id"]
+	def put(self, meetup_id):
 		new_meetup=[meetup for meetup in meetups if meetup["id"]==record_id]
 		if len(new_meetup)==0:
 			return make_response(jsonify({
@@ -71,17 +70,15 @@ class Meetup(Resource):
 		return make_response(jsonify({"status":202,"data":meetups}), 202)
 
 	def delete(self):
-		topic_id=request.json["id"]
-		meetup=[meetup for meetup in meetups if meetup["id"]==topic_id]
-		if len(meetup)==0:
-			return make_response(jsonify({
-		   	"status" : 200,
-		   	"error" : "record does not exist"}),200)
-		meetups.remove(meetup[0])
-		return make_response(jsonify({"status":200,"data":meetups}), 200)  
+		topic=request.json["topic"]
+		cur = self.conn.cursor()
+		query="DELETE from  meetups where topic=%s" 
+		cur.execute(query,(topic,))
+		self.conn.commit()
+		cur.close()
+		return {"message" : "record deleted successfully!"},200
 
-
-
+	
 
 
 
