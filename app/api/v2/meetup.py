@@ -2,6 +2,7 @@ from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
 from .models import meetups
 from .utils.validator import MeetupSchema
+import psycopg2
 
 import datetime
 
@@ -11,34 +12,33 @@ api = Api(app)
 
 class Meetup(Resource):
 	def __init__(self):
-	   self.id = len(meetups) + 1
-	   self.validate=MeetupSchema()
+		self.validate=MeetupSchema()
+		self.conn=psycopg2.connect(database = 'questioner', user = 'timo', password = 'smartjoker', host = 'localhost')
 
 	def post(self):
-		new_meetup={
-					"id":self.id,
-					"CreatedOn":datetime.datetime.now(),
-					"location":request.json["location"],
-					"images":request.json["images"],
-					"topic":request.json["topic"],
-					"HappeningOn":request.json["HappeningOn"],
-					"Tags":request.json["Tags"]
-					}
-		result=self.validate.load(new_meetup)
-		if result.errors:
-			return jsonify(result.errors)
+		created_on=datetime.datetime.now(),
+		location=request.json["location"],
+		images=request.json["images"],
+		topic=request.json["topic"],
+		happeningOn=request.json["happeningOn"],
+		tags=request.json["tags"],
+		_id=request.json["_id"]
 
-		meetup=[meetup for meetup in meetups if meetup["topic"]==request.json["topic"]]
-		if len(meetup)==0:
-			meetups.append(new_meetup)
-			return make_response(jsonify({
-		   	"status" : 201,
-		   	"data" : meetups}),201)
-		else:
-			return make_response(jsonify({
-		   	"status" : 409,
-		   	"error" : "the record already exists"}),409)
-		   	#get a specific meetup record
+					
+		query = "SELECT * FROM meetups where id = %s"
+		cur = self.conn.cursor()
+		cur.execute(query, (request.json["_id"], ))
+		result = cur.fetchall()
+		if result:
+			return make_response(jsonify({"status":409,"error":"the record exists"}),409)
+		
+		new_meetup = "INSERT INTO meetups(created_on,location,images,topic,happeningOn,tags,id) VALUES(%s,%s,%s,%s,%s,%s,%s)" 
+		params = (created_on,location,images,topic,happeningOn,tags,_id)
+		cur.execute(new_meetup, params)
+
+		self.conn.commit()
+		cur.close()
+		return {"message":"meetup successfully"}
 	def get(self):
 		topic_name=request.json["topic"]
 		meetup=[meetup for meetup in meetups if meetup["topic"]==topic_name]
