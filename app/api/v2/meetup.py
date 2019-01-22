@@ -59,16 +59,21 @@ class Meetup(Resource):
 		   	"status":404,
 		   	"message" : "record not found"}),404)
 
-	def put(self, meetup_id):
-		new_meetup=[meetup for meetup in meetups if meetup["id"]==record_id]
-		if len(new_meetup)==0:
-			return make_response(jsonify({
-		   	"status" : 200,
-		   	"error" : "record does not exist"}),200)
-		new_meetup[0]["HappeningOn"]=request.json["HappeningOn"]
-		new_meetup[0]["Tags"]=request.json["Tags"]
-		return make_response(jsonify({"status":202,"data":meetups}), 202)
+	def put(self):
+		topic=request.json["topic"]
+		happeningOn=request.json["happeningOn"]
+		images=request.json["images"]
+		cur = self.conn.cursor()
+		query="UPDATE meetups SET happeningOn=%s,images=%s where topic=%s"
+		cur.execute(query,(happeningOn, images,topic))
+		self.conn.commit()
+		cur.close()
+		return {
+		"message":"updated successfully"
+		}
 
+
+	
 	def delete(self):
 		topic=request.json["topic"]
 		cur = self.conn.cursor()
