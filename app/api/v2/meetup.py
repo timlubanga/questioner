@@ -22,34 +22,42 @@ class Meetup(Resource):
 		topic=request.json["topic"],
 		happeningOn=request.json["happeningOn"],
 		tags=request.json["tags"],
-		_id=request.json["_id"]
+
 
 					
-		query = "SELECT * FROM meetups where id = %s"
+		query = "SELECT * FROM meetups where topic = %s"
 		cur = self.conn.cursor()
-		cur.execute(query, (request.json["_id"], ))
+		cur.execute(query, (request.json["topic"], ))
 		result = cur.fetchall()
 		if result:
 			return make_response(jsonify({"status":409,"error":"the record exists"}),409)
 		
-		new_meetup = "INSERT INTO meetups(created_on,location,images,topic,happeningOn,tags,id) VALUES(%s,%s,%s,%s,%s,%s,%s)" 
-		params = (created_on,location,images,topic,happeningOn,tags,_id)
+		new_meetup = "INSERT INTO meetups(created_on,location,images,topic,happeningOn,tags) VALUES(%s,%s,%s,%s,%s,%s)" 
+		params = (created_on,location,images,topic,happeningOn,tags)
 		cur.execute(new_meetup, params)
 
 		self.conn.commit()
 		cur.close()
 		return {"message":"meetup successfully"}
+
+
 	def get(self):
-		topic_name=request.json["topic"]
-		meetup=[meetup for meetup in meetups if meetup["topic"]==topic_name]
-		if len(meetup)==0:
+		topic=request.json["topic"]
+		cur = self.conn.cursor()
+		query="SELECT * FROM meetups where topic=%s"
+		cur.execute(query,(topic,))
+		row=cur.fetchall()
+		cur.close()
+		if row:
 			return make_response(jsonify({
 		   	"status" : 200,
-		   	"error" : "record does not exist"}),200)
+
+		   	"data" : row}),200)
+
 		else:
 			return make_response(jsonify({
-		   	"status" : 200,
-		   	"data" : meetup[0]}),200)
+		   	"status":404,
+		   	"message" : "record not found"}),404)
 
 	def put(self):
 		record_id=request.json["id"]
