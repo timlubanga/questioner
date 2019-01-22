@@ -42,6 +42,23 @@ class User(Resource):
 		cur.close()
 		return "user created successfully"
 
-		
+		# GET a user with a spefic username
+	def get(self):
+		username=request.json["username"]
+		cur = self.conn.cursor()
+		query="SELECT * FROM users where username=%s"
+		cur.execute(query,(username,))
+		row=cur.fetchall()
+		cur.close()
+		if row:
+			return make_response(jsonify({
+		   	"status" : 200,
+
+		   	"data" : row}),200)
+
+		else:
+			return make_response(jsonify({
+		   	"status":404,
+		   	"message" : "record not found"}),404)
 	
 
