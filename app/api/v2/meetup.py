@@ -1,6 +1,5 @@
 from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
-from .models import meetups
 from .utils.validator import MeetupSchema
 import psycopg2
 

@@ -15,7 +15,6 @@ class Users(User):
 		if result:
 			return make_response(jsonify({
 		   	"status" : 200,
-			"number of exisiting records":len(result),
 		   	"data" : result}),200)
 
 		else:
