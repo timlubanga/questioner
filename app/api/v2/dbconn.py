@@ -40,7 +40,7 @@ class DbConnection:
 
         TABLE_MEETUPS = """ 
                             CREATE TABLE IF NOT EXISTS meetups (
-                                Id serial PRIMARY KEY NOT NULL,
+                                meetup_id serial PRIMARY KEY NOT NULL,
                                 topic VARCHAR (90) NOT NULL,
                                 happeningOn TIMESTAMP NOT NULL,
                                 location VARCHAR (90) NOT NULL,
