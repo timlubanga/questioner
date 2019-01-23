@@ -21,15 +21,15 @@ class Meetups(Meetup):
 		result=self.meetup.check_a_meetup_record_by_topic_name(data["topic"])
 		if result:
 			return make_response(jsonify(
-				{"status":409,
-				"message":"the  the meetup record exists"
+				{"status":200,
+				"message":"The meetup record exists"
 				}
 				),
-			409)
+			200)
 		self.meetup.post_ameetup_record(data)
 		return make_response(jsonify(
 				{"status":200,
-				"message":"the meetup record successfully posted"
+				"message":"The meetup record successfully posted"
 				}
 				),
 				200)

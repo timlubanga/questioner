@@ -24,7 +24,7 @@ class User(Resource):
 
 		else:
 			return make_response(jsonify({
-		   	"status":404,
-		   	"message" : "record not found"}),404)
+		   	"status":200,
+		   	"message" : "The user record not found"}),200)
 	
 

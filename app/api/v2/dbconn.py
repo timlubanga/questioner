@@ -52,13 +52,14 @@ class DbConnection:
         TABLE_QUESTIONS = """ 
                         CREATE TABLE IF NOT EXISTS questions (
                             Id serial PRIMARY KEY NOT NULL,
-                            meetup_id INTEGER  REFERENCES meetups(Id), 
-                            created_by INTEGER NOT NULL REFERENCES users(Id), 
-                            created_on TIMESTAMP NOT NULL DEFAULT current_timestamp,
+                            meetup_id INTEGER  NOT NULL, 
+                            createdby INTEGER NOT NULL, 
+                            createdon TIMESTAMP NOT NULL DEFAULT current_timestamp,
                             title VARCHAR (150) NOT NULL,
                             body VARCHAR (1000) NOT NULL, 
-                            votes INTEGER DEFAULT 0,   
-                            constraint votes_non_negative check (votes >= 0)             
+                            upvotes INTEGER DEFAULT 0,  
+                            downvotes INTEGER DEFAULT 0 
+                                       
         );"""
         TABLE_RSVPS = """ 
                         CREATE TABLE IF NOT EXISTS rsvps (
