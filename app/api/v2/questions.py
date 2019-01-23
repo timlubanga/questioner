@@ -1,17 +1,23 @@
 
-from .question import Question,api
+from .question import api
 from flask import jsonify, make_response
-from .models import questions
-class Questions(Question):
+from .utils.helper import Helpers
+class Questions(Resource):
+
+	def __init__(self):
+		self.questions=Helpers()
+
 	def get(self):
-		if len(questions)==0:
+
+		result=self.questions.fetch_all_question_records()
+		if result:
 			return make_response(jsonify({
 		   	"status" : 200,
-		   	"message" : "no record exist"}),200)
+		   	"data" :  result}),200)
 		else:
 			return make_response(jsonify({
 		   	"status" : 200,
-		   	"data" : questions}),200)
+		   	"message" : "The question table is empty"}),200)
 
 
 

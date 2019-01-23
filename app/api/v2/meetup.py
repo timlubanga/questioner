@@ -25,8 +25,8 @@ class Meetup(Resource):
 
 		else:
 			return make_response(jsonify({
-		   	"status":404,
-		   	"message" : "record not found"}),404)
+		   	"status":200,
+		   	"message" : "The meetup record is not found"}),200)
 
 	def put(self,_id):
 		data={
@@ -54,11 +54,11 @@ class Meetup(Resource):
 			self.meetup.delete_ameetup_record(_id)
 			return make_response(jsonify({
 		   	"status":200,
-		   	"message" : "record deleted successfully"}),200)
+		   	"message" : "Record deleted successfully"}),200)
 		else:
 			return make_response(jsonify({
 		   	"status":404,
-		   	"message" : "record not found"}),404)
+		   	"message" : "The meetup record not found"}),404)
 
 	
 

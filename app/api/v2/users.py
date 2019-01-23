@@ -22,7 +22,7 @@ class Users(User):
 
 		result=self.user.check_if_user_exists(params['username'])
 		if result:
-			return make_response(jsonify({"status":200,"message":"The user record exists"}),409)
+			return make_response(jsonify({"status":200,"message":"The user record exists"}),200)
 		else:
 			self.user.insert_new_user(params)
 			return {
