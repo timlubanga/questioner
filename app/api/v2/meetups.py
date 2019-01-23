@@ -1,49 +1,44 @@
 
 from .meetup import api,Meetup
 from flask import jsonify, make_response, request
-import psycopg2
 import datetime
-from psycopg2.extras import RealDictCursor
+from .utils.helper import Helpers
 
 class Meetups(Meetup):
 	def __init__(self):
-			self.conn =  psycopg2.connect(database = 'questioner', user = 'timo', password = 'smartjoker', host = 'localhost')
-	
+			self.meetup=Helpers()
 	#post a meetup to meetups
 
 	def post(self):
-		created_on=datetime.datetime.now(),
-		location=request.json["location"],
-		images=request.json["images"],
-		topic=request.json["topic"],
-		happeningOn=request.json["happeningOn"],
-		tags=request.json["tags"],
-		
-		query = "SELECT * FROM meetups where topic = %s"
-		cur = self.conn.cursor(cursor_factory=RealDictCursor)
-		cur.execute(query, (topic, ))
-		result = cur.fetchall()
+		data={
+				"created_on":datetime.datetime.now(),
+				"location":request.json["location"],
+				"images":request.json["images"],
+				"topic":request.json["topic"],
+				"happeningOn":request.json["happeningOn"],
+				"tags":request.json["tags"]
+		}
+		result=self.meetup.check_a_meetup_record_by_topic_name(data["topic"])
 		if result:
-			return make_response(jsonify({"status":409,"error":"the record exists"}),409)
-		
-		new_meetup = "INSERT INTO meetups(created_on,location,images,topic,happeningOn,tags) VALUES(%s,%s,%s,%s,%s,%s)" 
-		params = (created_on,location,images,topic,happeningOn,tags)
-		cur.execute(new_meetup, params)
-
-		self.conn.commit()
-		cur.close()
-		return {"message":"meetup successfully"}
-
-
+			return make_response(jsonify(
+				{"status":409,
+				"message":"the  the meetup record exists"
+				}
+				),
+			409)
+		self.meetup.post_ameetup_record(data)
+		return make_response(jsonify(
+				{"status":200,
+				"message":"the meetup record successfully posted"
+				}
+				),
+				200)
 
 
 	# retrieve all meetups from the database
 
 	def get(self):
-		cur = self.conn.cursor(cursor_factory=RealDictCursor)
-		query = "SELECT * FROM meetups" 
-		cur.execute(query)
-		result = cur.fetchall()
+		result=self.meetup.get_all_meetups()
 		if result:
 			return make_response(jsonify({
 		   	"status" : 200,
