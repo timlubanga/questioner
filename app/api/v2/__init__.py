@@ -5,7 +5,7 @@ from flask import Blueprint
 from .meetup import Meetup
 from .user import User
 from .question import Question
-from .get_all_meetups import Meetups
+from .meetups import Meetups
 from .get_all_questions import Questions
 from .get_all_users import Users
 from .upvote import Upvotes
@@ -14,8 +14,8 @@ from .meetup_rsvp import RSVP
 
 version2=Blueprint("api",__name__, url_prefix="/api/v2")
 api=Api(version2)
-api.add_resource(User,'/user')
-api.add_resource(Meetup,'/meetup')
+api.add_resource(User,'/user/<username>')
+api.add_resource(Meetup,'/meetup/<_id>')
 api.add_resource(Question,'/question')
 api.add_resource(Meetups,'/meetups')
 api.add_resource(Questions,'/questions')

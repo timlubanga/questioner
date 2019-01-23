@@ -1,6 +1,5 @@
 from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
-from .models import questions
 from .utils.validator import QuestionSchema
 
 import datetime
@@ -10,7 +9,6 @@ api = Api(app)
 
 class Question(Resource):
 	def __init__(self):
-	   self.id = len(questions) + 1
 	   self.validate=QuestionSchema()
 
 	def post(self):
