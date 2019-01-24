@@ -1,9 +1,13 @@
 
-from .user import User,api
-from flask import jsonify, make_response, request
+from flask import Flask,jsonify, make_response, request
 import datetime
 from .utils.helper import Helpers
-class Users(User):
+from flask_restful import Resource, Api
+
+app = Flask(__name__)
+api = Api(app)
+
+class Users(Resource):
 	def __init__(self):
 		self.user=Helpers()
 	

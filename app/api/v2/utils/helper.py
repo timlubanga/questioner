@@ -10,8 +10,16 @@ class Helpers():
 		cur = self.conn.cursor(cursor_factory=RealDictCursor)
 		query="SELECT * FROM users where username= %s".format("username")
 		cur.execute(query,(username,))
-		row=cur.fetchone()
-		return row
+		result=cur.fetchone()
+		return result
+		cur.close()
+
+	def check_if_user_exists_by_id(self,_id):
+		cur = self.conn.cursor(cursor_factory=RealDictCursor)
+		query="SELECT * FROM users where username= %s".format("_id")
+		cur.execute(query,(_id,))
+		result=cur.fetchone()
+		return result
 		cur.close()
 
 	def retriveve_all_users(self):
