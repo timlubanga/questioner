@@ -22,5 +22,5 @@ api.add_resource(Questions,'/questions')
 api.add_resource(Users,'/users')
 api.add_resource(Upvotes,'/question/<_id>/upvote')
 api.add_resource(Downvotes,'/question/<_id>/downvote')
-api.add_resource(RSVP,'/meetups/<topic_name>/rsvp')
+api.add_resource(RSVP,'/meetups/<_id>/rsvp')
 

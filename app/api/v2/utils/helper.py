@@ -114,6 +114,19 @@ class Helpers():
 		self.conn.commit()
 		cur.close()
 
+	def post_rsvp(self,data):
+		cur = self.conn.cursor(cursor_factory=RealDictCursor)
+
+		new_meetup = "INSERT INTO rsvps(meetup_id,user_id,response) VALUES(%s,%s,%s)" 
+		params = (data['meetup_id'],data['user_id'],data['response'])
+		cur.execute(new_meetup,(params),)
+
+		self.conn.commit()
+		cur.close()
+
+
+
+
 
 
 		
