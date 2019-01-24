@@ -1,9 +1,13 @@
 
-from .user import User,api
-from flask import jsonify, make_response, request
+from flask import Flask,jsonify, make_response, request
 import datetime
 from .utils.helper import Helpers
-class Users(User):
+from flask_restful import Resource, Api
+
+app = Flask(__name__)
+api = Api(app)
+
+class Users(Resource):
 	def __init__(self):
 		self.user=Helpers()
 	
@@ -22,7 +26,7 @@ class Users(User):
 
 		result=self.user.check_if_user_exists(params['username'])
 		if result:
-			return make_response(jsonify({"status":409,"error":"the record exists"}),409)
+			return make_response(jsonify({"status":200,"message":"The user record exists"}),200)
 		else:
 			self.user.insert_new_user(params)
 			return {
@@ -30,7 +34,7 @@ class Users(User):
 			}
 
 
-	# retrieve all users from the database
+	# retrieve all users from the user table
 	def get(self):
 		result=self.user.retriveve_all_users()
 		if result:
@@ -41,7 +45,7 @@ class Users(User):
 		else:
 			return make_response(jsonify({
 		   	"status" : 200,
-		   	"error" : "database is empty"}),200)
+		   	"error" : "The user's table is empty"}),200)
 
 
 

@@ -2,6 +2,7 @@ from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
 from .utils.validator import UserSchema
 from .utils.helper import Helpers
+from flask_jwt_extended import jwt_required
 
 app = Flask(__name__)
 api = Api(app)
@@ -14,6 +15,7 @@ class User(Resource):
 	
 
 		# GET a user with a spefic username
+	@jwt_required
 	def get(self,username):
 		row=self.user.check_if_user_exists(username)
 		if row:
@@ -24,7 +26,7 @@ class User(Resource):
 
 		else:
 			return make_response(jsonify({
-		   	"status":404,
-		   	"message" : "record not found"}),404)
+		   	"status":200,
+		   	"message" : "The user record not found"}),200)
 	
 

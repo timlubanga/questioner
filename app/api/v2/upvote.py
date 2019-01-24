@@ -1,26 +1,31 @@
 from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
 from .models import questions
+from .utils.helper import Helpers
 
 
 
 class Upvotes(Resource):
 
-	def patch (self):
-		question_id=request.json["id"]
-		question=[question for question in questions if question["id"]==question_id]
-		if len(question)==0:
+	def __init__(self):
+
+		self.question=Helpers()
+
+
+
+	def patch (self,_id):
+		result=self.question.check_if_a_question_exists(_id)
+		if result:
+			self.question.upvote_aquestion(_id)
+
 			return make_response(jsonify({
 		   	"status" : 200,
-		   	"error" : "record does not exist"}),200)
+		   	"message" : "question upvoted successfully"}),200)
 		else:
-			question[0]["upvotes"] = question[0]["upvotes"]+1
 			return make_response(jsonify({
 		   			"status" : 200,
-		   			"data" : question}),200)
+		   			"message" : "The question does not exist"}),200)
 
-		return make_response(jsonify({
-		   		"status" : 404,
-		   		"error" : "the database is empty"}),404)
+	
 
 		

@@ -18,7 +18,7 @@ class UserSchema(Schema):
 
 class QuestionSchema(Schema):
 
-	CreatedBy=fields.String(required=True,validate=not_blank)
+	createdby=fields.Integer(required=True)
 	meetup_id=fields.Integer()
 	title=fields.String(required=True,validate=not_blank)
 	body=fields.String(required=True,validate=not_blank)
