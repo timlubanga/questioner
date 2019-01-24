@@ -107,6 +107,12 @@ class Helpers():
 		self.conn.commit()
 		cur.close()
 
+	def downvote_aquestion(self,_id):
+		cur = self.conn.cursor(cursor_factory=RealDictCursor)
+		new_query="UPDATE questions SET downvotes=downvotes-1 where id=%s".format(_id)
+		cur.execute(new_query,(_id),)
+		self.conn.commit()
+		cur.close()
 
 
 
