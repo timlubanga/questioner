@@ -100,6 +100,13 @@ class Helpers():
 		result=cur.fetchall()
 		return result
 	
+	def upvote_aquestion(self,_id):
+		cur = self.conn.cursor(cursor_factory=RealDictCursor)
+		new_query="UPDATE questions SET upvotes=upvotes+1 where id=%s".format(_id)
+		cur.execute(new_query,(_id),)
+		self.conn.commit()
+		cur.close()
+
 
 
 
