@@ -13,6 +13,7 @@ class Question(Resource):
 	   self.validate=QuestionSchema()
 	   self.question=Helpers()
 	   self.meetup=Helpers()
+	   self.validate=QuestionSchema
 
 
 	def post(self,_id):

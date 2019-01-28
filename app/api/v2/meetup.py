@@ -30,16 +30,19 @@ class Meetup(Resource):
 
 	def put(self,_id):
 		data={
-				"happeningOn":request.json["happeningOn"],
+				"happeningon":request.json["happeningon"],
 				"images":request.json["images"]
 		}
+
+
+
 		row=self.meetup.check_if_ameetup_exist(_id)
 		if row:
 			self.meetup.insert_new_meetup(data,_id)
 		
 			return make_response(jsonify({
-			"status":404,
-			"message" : "The meetup record updated successfully"}),200)
+			"status":202,
+			"message" : "The meetup record updated successfully"}),202)
 		
 		else:
 			return make_response(jsonify({

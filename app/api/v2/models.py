@@ -1,6 +1,0 @@
-questions=[]
-meetups=[]
-users=[]
-rsvps=[]
-
-

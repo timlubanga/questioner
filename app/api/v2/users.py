@@ -3,6 +3,7 @@ from flask import Flask,jsonify, make_response, request
 import datetime
 from .utils.helper import Helpers
 from flask_restful import Resource, Api
+from .utils.validator import  UserSchema
 
 app = Flask(__name__)
 api = Api(app)
@@ -10,6 +11,7 @@ api = Api(app)
 class Users(Resource):
 	def __init__(self):
 		self.user=Helpers()
+		self.validate=UserSchema()
 	
 	def post(self):
 		params={
@@ -23,6 +25,10 @@ class Users(Resource):
 			"password":request.json["password"],
 			"isadmin":False
 		}
+
+		data=self.validate.load(params)
+		if data.errors:
+			return jsonify(data.errors)
 
 		result=self.user.check_if_user_exists(params['username'])
 		if result:

@@ -50,7 +50,7 @@ class Helpers():
 	def insert_new_meetup(self,data,_id):
 		cur = self.conn.cursor(cursor_factory=RealDictCursor)
 		new_query="UPDATE meetups SET happeningon=%s,images=%s where meetup_id=%s".format(_id)
-		cur.execute(new_query,(data['happeningOn'], data['images'],_id),)
+		cur.execute(new_query,(data['happeningon'], data['images'],_id),)
 		self.conn.commit()
 		cur.close()
 
@@ -73,7 +73,7 @@ class Helpers():
 		cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
 		new_meetup = "INSERT INTO meetups(created_on,location,images,topic,happeningon,tags) VALUES(%s,%s,%s,%s,%s,%s)" 
-		params = (data['created_on'],data['location'],data['images'],data['topic'],data['happeningOn'],data['tags'])
+		params = (data['created_on'],data['location'],data['images'],data['topic'],data['happeningon'],data['tags'])
 		cur.execute(new_meetup, params)
 
 		self.conn.commit()
