@@ -1,6 +1,5 @@
 from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
-from .models import questions
 from .utils.helper import Helpers
 from flask_jwt_extended import jwt_required,get_jwt_identity
 
