@@ -16,6 +16,15 @@ install:
  - pip install pytest-cov
  - pip install codeclimate-test-reporter
 # command to run tests
+
+services:
+  - postgresql
+addons:
+  postgresql: "9.6"
+
+before_script:
+  - psql -c 'CREATE DATABASE questioner' -U timo
+  - psql -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public to postgres ;" -U timo
 script:
  - python -m pytest
  - pytest --cov app
