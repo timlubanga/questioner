@@ -23,7 +23,7 @@ addons:
   postgresql: "9.6"
 
 before_script:
-  - psql -c 'CREATE DATABASE questioner' -U timo
+  - psql -c 'CREATE DATABASE questioner' -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public to postgres ;" -U postgres
 script:
  - python -m pytest
