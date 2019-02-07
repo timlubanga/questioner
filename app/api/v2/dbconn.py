@@ -85,7 +85,7 @@ class DbConnection:
                         )
         """
 
-        return [TABLE_USERS,TABLE_MEETUPS,TABLE_QUESTIONS,TABLE_RSVPS]
+        return [TABLE_USERS,TABLE_MEETUPS,TABLE_QUESTIONS,TABLE_RSVPS,ADMIN_USER]
 
     def execute_queries(self):
         curs = self.get_connection().cursor()

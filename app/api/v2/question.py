@@ -2,6 +2,7 @@ from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
 from .utils.validator import QuestionSchema
 from .utils.helper import Helpers
+from flask_jwt_extended import jwt_required,get_jwt_identity
 
 import datetime
 
@@ -13,13 +14,14 @@ class Question(Resource):
 	   self.validate=QuestionSchema()
 	   self.question=Helpers()
 	   self.meetup=Helpers()
-	   self.validate=QuestionSchema
+	   self.validate=QuestionSchema()
 
-
+	@jwt_required
 	def post(self,_id):
+		current_user=get_jwt_identity()
 		data={
 					"createdon":datetime.datetime.now(),
-					"createdby":request.json["createdby"],
+					"createdby":current_user,
 					"meetup_id":_id,
 					"title":request.json["title"],
 					"body":request.json["body"],
@@ -41,7 +43,8 @@ class Question(Resource):
 		   		"status" : 200,
 		   		"message" : "the meetup record does not exist"}),404)
 		
-		  #get a specific question
+	
+	@jwt_required	  #get a specific question
 	def get(self,_id):
 		row=self.question.check_if_a_question_exists(_id)
 		if row:

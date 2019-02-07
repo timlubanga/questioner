@@ -1,12 +1,9 @@
-from flask_restful import Resource, Api
+from flask_restful import Resource
 from flask import Flask, jsonify, make_response, request
 from .utils.validator import MeetupSchema
 from .utils.helper import Helpers
+from flask_jwt_extended import jwt_required,get_jwt_identity
 
-
-
-app = Flask(__name__)
-api = Api(app)
 
 
 class Meetup(Resource):
@@ -14,6 +11,8 @@ class Meetup(Resource):
 		self.validate=MeetupSchema()
 		self.meetup=Helpers()
 	
+
+	@jwt_required
 	def get(self,_id):
 		row=self.meetup.check_if_ameetup_exist(_id)
 		
@@ -28,6 +27,7 @@ class Meetup(Resource):
 		   	"status":200,
 		   	"message" : "The meetup record is not found"}),200)
 
+	@jwt_required
 	def put(self,_id):
 		data={
 				"happeningon":request.json["happeningon"],
@@ -42,6 +42,7 @@ class Meetup(Resource):
 		
 			return make_response(jsonify({
 			"status":202,
+			"data":row,
 			"message" : "The meetup record updated successfully"}),202)
 		
 		else:
@@ -50,7 +51,7 @@ class Meetup(Resource):
 		   	"message" : "The meetup record not found"}),404)
 
 
-	
+	@jwt_required
 	def delete(self,_id):
 		row=self.meetup.check_if_ameetup_exist(_id)
 		if row:

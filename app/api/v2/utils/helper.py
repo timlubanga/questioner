@@ -42,7 +42,7 @@ class Helpers():
 	def check_if_ameetup_exist(self,_id):
 		cur = self.conn.cursor(cursor_factory=RealDictCursor)
 		query="SELECT * FROM meetups where meetup_id=%s".format(_id)
-		cur.execute(query,(_id))
+		cur.execute(query,(_id,))
 		row=cur.fetchone()
 		return row
 		cur.close()

@@ -1,17 +1,23 @@
 
-from .meetup import api,Meetup
+from .meetup import Meetup
 from flask import jsonify, make_response, request
 import datetime
 from .utils.helper import Helpers
 from .utils.validator import MeetupSchema
+from flask_jwt_extended import jwt_required,get_jwt_identity
 
 class Meetups(Meetup):
 	def __init__(self):
 			self.meetup=Helpers()
 			self.validate=MeetupSchema()
 	#post a meetup to meetups
-
+	@jwt_required
 	def post(self):
+		current_user=get_jwt_identity()
+		if current_user!=1:
+			return make_response(jsonify({
+		   	"status" : 401,
+		   	"message" : "you are not authorized to access this endpoint"}),401)
 		payload={
 				"created_on":datetime.datetime.now(),
 				"location":request.json["location"],
@@ -42,7 +48,7 @@ class Meetups(Meetup):
 
 
 	# retrieve all meetups from the database
-
+	@jwt_required
 	def get(self):
 		result=self.meetup.get_all_meetups()
 		if result:
