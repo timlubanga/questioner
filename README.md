@@ -1,5 +1,5 @@
 ## Badges
-[![Build Status](https://travis-ci.org/timlubanga/questioner.svg?branch=develop)](https://travis-ci.org/timlubanga/questioner)
+[![Build Status](https://travis-ci.org/timlubanga/questioner.svg?branch=develop-V2)](https://travis-ci.org/timlubanga/questioner)
 [![Coverage Status](https://coveralls.io/repos/github/timlubanga/questioner/badge.svg?branch=develop)](https://coveralls.io/github/timlubanga/questioner?branch=develop)
 
 
