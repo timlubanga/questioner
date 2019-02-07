@@ -24,7 +24,6 @@ pluggy==0.8.0
 psycopg2==2.7.6.1
 py==1.7.0
 pycrypto==2.6.1
-pygobject==3.26.1
 PyJWT==1.7.1
 pytest==4.0.1
 python-dateutil==2.7.5
