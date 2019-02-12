@@ -42,6 +42,10 @@ class TestMeetup(unittest.TestCase):
         	"topic": "    ",
         	"happeningon": "1/3/2019"
         	}
+		self.data00={
+        	"images": "lubs.jpg",
+        	"happeningon": "1/8/2019"
+        	}
 	
 		auth = self.app.post(self.url_login, data=json.dumps(self.user), content_type='application/json')
 		data=json.loads(auth.get_data())
@@ -107,11 +111,8 @@ class TestMeetup(unittest.TestCase):
 		self.assertEqual(expected["message"], "The meetup record is not found")
 
 	def test_update_aspecific_record(self):
-		data={
-        	"images": "lubs.jpg",
-        	"happeningon": "1/8/2019"
-        	}
-		response=self.app.put(self.url_id, data=json.dumps(data), headers=self.headers)
+			
+		response=self.app.put(self.url_id, data=json.dumps(self.data00), headers=self.headers)
 		expected=json.loads(response.get_data())
 
 		self.assertEqual(expected["message"], "The meetup record updated successfully")

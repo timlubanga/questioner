@@ -70,7 +70,7 @@ class TestLogin(unittest.TestCase):
         response=self.app.post(self.url,data=json.dumps(self.data3), headers={"Content-Type":"application/json"})
         expected=json.loads(response.get_data())
 
-        self.assertEqual(expected["message"], "wrong username or password")
+        self.assertEqual(expected["message"], "wrong password")
     
     def test_non_exisiting_username(self):
     

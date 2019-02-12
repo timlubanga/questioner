@@ -46,7 +46,7 @@ class Userlogin(Resource):
 		   	"token" : access_token
 		   }),200)
 		else:
-			return{"message":"wrong username or password"}
+			return{"message":"wrong password"}
 
       
 
