@@ -24,7 +24,7 @@ before_script:
   - psql -c "CREATE DATABASE questioner;" -U postgres
 script:
  - python -m pytest
- - pytest --cov=app
+ - pytest --cov app
 
 after_success:
  - coveralls
