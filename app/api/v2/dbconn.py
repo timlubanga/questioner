@@ -92,6 +92,8 @@ class DbConnection:
         #curs.execute(self.db_clean())
         for query in self.create_database_tables():
             curs.execute(query)
+            self.get_connection().commit()
+
         
 
     def commit_changes(self):
