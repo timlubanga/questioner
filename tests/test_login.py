@@ -4,6 +4,7 @@ import sys
 import json
 topdir = os.path.join(os.path.dirname(__file__),"../" )
 sys.path.append(topdir)
+
 from app import create_app
 
 
