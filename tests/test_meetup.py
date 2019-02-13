@@ -12,7 +12,7 @@ class TestMeetup(unittest.TestCase):
 		self.app=create_app().test_client()
 		self.url="api/v2/meetups"
 		self.url_login="/api/v2/login"
-		self.url_id="api/v2/meetup/2"
+		self.url_id="api/v2/meetup/1"
 		self.url_id1="api/v2/meetup/3"
 		
 		self.user={
@@ -95,13 +95,14 @@ class TestMeetup(unittest.TestCase):
 	def test_retrieve_all_meetups(self):
 		response=self.app.get(self.url, headers=self.headers)
 		expected=json.loads(response.get_data())
-		self.assertEqual(len(expected), 2)
+		self.assertEqual(len(expected["data"]), 1)
+		
 
 	def test_retrieve_specific_meetup_record(self):
 		response=self.app.get(self.url_id, headers=self.headers)
 		expected=json.loads(response.get_data())
 		
-		self.assertEqual(expected["data"]["meetup_id"], 2)
+		self.assertEqual(expected["data"]["location"],"kasarani")
 		self.assertEqual(response.status_code,200)
 		
 	def test_retrieve_retrieve_nonexisiting_record(self):

@@ -1,10 +1,14 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import request
+import os
 
+
+url=os.getenv("db_url")
 class Helpers():
+
 	def __init__(self):
-		self.conn = psycopg2.connect(database = 'questioner', user = 'timo', password = 'smartjoker', host = 'localhost')
+		self.conn =psycopg2.connect(database = 'questioner_db', user = 'postgres', password = 'password', host = 'localhost')
 	
 	def check_if_user_exists(self,username):
 		cur = self.conn.cursor(cursor_factory=RealDictCursor)

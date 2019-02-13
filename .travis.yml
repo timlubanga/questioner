@@ -2,12 +2,9 @@ language: python
 python:
  - "3.6"
 # command to install dependencies
-env:
-- FLASK_VERSION=1.0.2
 
 before_install:
   - "pip install -U pip"
-  - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
 
 install:
  - pip install -r requirements.txt

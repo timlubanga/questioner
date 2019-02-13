@@ -5,7 +5,7 @@ class DbConnection:
 
     def db_connection(self):
         """ initilizes a connection with the database """
-        self.conn = psycopg2.connect(database = 'questioner', user = 'timo', password = 'smartjoker', host = 'localhost')
+        self.conn = psycopg2.connect(database = 'questioner_db', user = 'postgres',password="password", host = 'localhost')
         return self.conn
 
     def get_connection(self):
