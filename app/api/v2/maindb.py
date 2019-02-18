@@ -1,4 +1,4 @@
-from dbconn import db_connection, destroy, execute_queries
+from .dbconn import db_connection, destroy, execute_queries
 
 def maindb(url):
 	db_connection(url)
