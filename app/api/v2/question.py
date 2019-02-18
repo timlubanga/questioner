@@ -1,7 +1,7 @@
 from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
 from .utils.validator import QuestionSchema
-from .utils.helper import Helpers
+from .utils.helper import check_if_ameetup_exist,check_if_a_question_exists,post_a_question
 from flask_jwt_extended import jwt_required,get_jwt_identity
 
 import datetime
@@ -11,9 +11,6 @@ api = Api(app)
 
 class Question(Resource):
 	def __init__(self):
-	   self.validate=QuestionSchema()
-	   self.question=Helpers()
-	   self.meetup=Helpers()
 	   self.validate=QuestionSchema()
 
 	@jwt_required
@@ -32,9 +29,9 @@ class Question(Resource):
 		if result.errors:
 			return jsonify(result.errors)
 		else:
-			result=self.meetup.check_if_ameetup_exist(_id)
+			result=check_if_ameetup_exist(_id)
 			if result:
-				self.question.post_a_question(data)
+				post_a_question(data)
 				return make_response(jsonify({
 		   		"status" : 200,
 		   		"message" : "question posted successfully"}),200)
@@ -46,7 +43,7 @@ class Question(Resource):
 	
 	@jwt_required	  #get a specific question
 	def get(self,_id):
-		row=self.question.check_if_a_question_exists(_id)
+		row=check_if_a_question_exists(_id)
 		if row:
 			return make_response(jsonify({
 		   	"status" : 200,

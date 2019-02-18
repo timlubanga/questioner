@@ -1,20 +1,15 @@
 from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
-from .utils.helper import Helpers
+from .utils.helper import check_if_a_question_exists
 from flask_jwt_extended import jwt_required,get_jwt_identity
 
 
 
 class Upvotes(Resource):
 
-	def __init__(self):
-
-		self.question=Helpers()
-
-
 	@jwt_required
 	def patch (self,_id):
-		result=self.question.check_if_a_question_exists(_id)
+		result=check_if_a_question_exists(_id)
 		if result:
 			self.question.upvote_aquestion(_id)
 

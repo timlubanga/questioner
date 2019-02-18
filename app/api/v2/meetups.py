@@ -2,14 +2,13 @@
 from .meetup import Meetup
 from flask import jsonify, make_response, request
 import datetime
-from .utils.helper import Helpers
+from .utils.helper import check_a_meetup_record_by_topic_name, post_ameetup_record,get_all_meetups
 from .utils.validator import MeetupSchema
 from flask_jwt_extended import jwt_required,get_jwt_identity
 
 class Meetups(Meetup):
 	def __init__(self):
-			self.meetup=Helpers()
-			self.validate=MeetupSchema()
+		self.validate=MeetupSchema()
 	#post a meetup to meetups
 	@jwt_required
 	def post(self):
@@ -30,7 +29,7 @@ class Meetups(Meetup):
 		res=self.validate.load(payload)
 		if res.errors:
 			return jsonify(res.errors)
-		result=self.meetup.check_a_meetup_record_by_topic_name(payload["topic"])
+		result=check_a_meetup_record_by_topic_name(payload["topic"])
 		if result:
 			return make_response(jsonify(
 				{"status":200,
@@ -38,7 +37,7 @@ class Meetups(Meetup):
 				}
 				),
 			200)
-		self.meetup.post_ameetup_record(payload)
+		post_ameetup_record(payload)
 		return make_response(jsonify(
 				{"status":200,
 				"message":"The meetup record successfully posted"
@@ -50,7 +49,7 @@ class Meetups(Meetup):
 	# retrieve all meetups from the database
 	@jwt_required
 	def get(self):
-		result=self.meetup.get_all_meetups()
+		result=get_all_meetups()
 		if result:
 			return make_response(jsonify({
 		   	"status" : 200,

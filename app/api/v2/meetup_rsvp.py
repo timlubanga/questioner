@@ -1,6 +1,6 @@
 from flask_restful import Resource, Api
 from flask import Flask, jsonify, make_response, request
-from .utils.helper import Helpers
+from .utils.helper import check_if_ameetup_exist,post_rsvp
 from .utils.validator import Meetup_rsvpSchema
 from flask_jwt_extended import jwt_required,get_jwt_identity
 
@@ -9,8 +9,6 @@ from flask_jwt_extended import jwt_required,get_jwt_identity
 
 class RSVP(Resource):
 	def __init__(self):
-		self.meetup=Helpers()
-		self.rsvp=Helpers()
 		self.validate=Meetup_rsvpSchema()
 
 	@jwt_required
@@ -25,10 +23,10 @@ class RSVP(Resource):
 		if res.errors:
 			return jsonify(res.errors)
 	
-		result=self.meetup.check_if_ameetup_exist(_id)
+		result=check_if_ameetup_exist(_id)
 
 		if result:
-			self.rsvp.post_rsvp(data)
+			post_rsvp(data)
 
 			return make_response(jsonify({
 		   	"status" : 200,
