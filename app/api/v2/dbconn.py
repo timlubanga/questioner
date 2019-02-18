@@ -1,31 +1,24 @@
-import os
+
 import psycopg2
 
-class DbConnection:
+def db_connection(url):
 
-    def db_connection(self):
-        """ initilizes a connection with the database """
-        self.conn = psycopg2.connect(database = 'questioner_db', user = 'postgres',password="password", host = 'localhost')
-        return self.conn
+    global cur,connection
+    connection=psycopg2.connect(url)
+    cur = connection.cursor()
 
-    def get_connection(self):
-        """ Returns a database connection """
-        return self.conn
-
-    def db_destroy(self):
-        """ Deletes all records from the Database """
-        DROP_DATABASE = """
+def db_destroy():
+    DROP_DATABASE = """
                 DROP SCHEMA public CASCADE;
                 CREATE SCHEMA public;
                 GRANT USAGE ON SCHEMA public TO postgres;
         """
-        return DROP_DATABASE
+    return DROP_DATABASE
 
-    def create_database_tables(self):
-        """ Create all database tables """
+def create_database_tables():
 
-        TABLE_USERS = """ 
-                             CREATE TABLE IF NOT EXISTS users (
+    TABLE_USERS = """ 
+                        CREATE TABLE IF NOT EXISTS users (
                                 Id serial PRIMARY KEY NOT NULL,
                                 firstname VARCHAR (40) NOT NULL, 
                                 lastname VARCHAR (40) NOT NULL, 
@@ -33,43 +26,43 @@ class DbConnection:
                                 email VARCHAR (40) UNIQUE NOT NULL, 
                                 phone_number VARCHAR (40),
                                 username VARCHAR (40) UNIQUE NOT NULL,
-                                registered TIMESTAMP NOT NULL DEFAULT current_timestamp, 
+                                registered TIMESTAMP NOT NULL, 
                                 password VARCHAR (256) NOT NULL,
-                                IsAdmin VARCHAR (20) DEFAULT false
+                                IsAdmin VARCHAR (20)
         );"""
 
-        TABLE_MEETUPS = """ 
-                            CREATE TABLE IF NOT EXISTS meetups (
+    TABLE_MEETUPS = """ 
+                        CREATE TABLE IF NOT EXISTS meetups (
                                 meetup_id serial PRIMARY KEY NOT NULL,
                                 topic VARCHAR (90) NOT NULL,
                                 happeningOn TIMESTAMP NOT NULL,
                                 location VARCHAR (90) NOT NULL,
-                                created_on TIMESTAMP NOT NULL DEFAULT current_timestamp,
+                                created_on TIMESTAMP NOT NULL,
                                 images VARCHAR (200) NULL,
                                 tags VARCHAR(200) NULL
         );"""
 
-        TABLE_QUESTIONS = """ 
-                        CREATE TABLE IF NOT EXISTS questions (
+    TABLE_QUESTIONS = """ 
+                    CREATE TABLE IF NOT EXISTS questions (
                             Id serial PRIMARY KEY NOT NULL,
                             meetup_id INTEGER  NOT NULL, 
                             createdby INTEGER NOT NULL, 
-                            createdon TIMESTAMP NOT NULL DEFAULT current_timestamp,
+                            createdon TIMESTAMP NOT NULL,
                             title VARCHAR (150) NOT NULL,
                             body VARCHAR (1000) NOT NULL, 
                             upvotes INTEGER DEFAULT 0,  
                             downvotes INTEGER DEFAULT 0 
                                        
         );"""
-        TABLE_RSVPS = """ 
-                        CREATE TABLE IF NOT EXISTS rsvps (
+    TABLE_RSVPS = """ 
+                    CREATE TABLE IF NOT EXISTS rsvps (
                             Id serial PRIMARY KEY NOT NULL,
                             meetup_id INTEGER NOT NULL, 
                             user_id INTEGER NOT NULL, 
                             response VARCHAR (200)
         );"""
 
-        ADMIN_USER = """
+    ADMIN_USER = """
                         INSERT INTO users(firstname,lastname,
                                           othername,email,phone_number,
                                           username,registered,password,isadmin) VALUES(
@@ -85,28 +78,34 @@ class DbConnection:
                         )
         """
 
-        return [TABLE_USERS,TABLE_MEETUPS,TABLE_QUESTIONS,TABLE_RSVPS,ADMIN_USER]
+    return [TABLE_USERS,TABLE_MEETUPS,TABLE_QUESTIONS,TABLE_RSVPS,ADMIN_USER]
 
-    def execute_queries(self):
-        curs = self.get_connection().cursor()
+def execute_queries():
+    cur = connection.cursor()
         #curs.execute(self.db_clean())
-        for query in self.create_database_tables():
-            curs.execute(query)
-            self.get_connection().commit()
+    for query in create_database_tables():
+            cur.execute(query)
+            connection.commit() 
 
-        
+def drop_table_queries():
+    drop_queries = [
+        "DROP TABLE IF EXISTS users CASCADE",
+        "DROP TABLE IF EXISTS meetups CASCADE",
+        "DROP TABLE IF EXISTS questions CASCADE",
+        "DROP TABLE IF EXISTS rsvps CASCADE",
+        "DROP TABLE IF EXISTS comments CASCADE",
+        "DROP TABLE IF EXISTS votes CASCADE"
+        ]
+    return drop_queries
 
-    def commit_changes(self):
-        """ Commits changes to database """    
-        self.get_connection().commit()
+def destroy():
+    cur = connection.cursor()
+    queries = drop_table_queries()
+    for query in queries:
+        cur.execute(query)
+    connection.commit()
 
-    def setUpTestDb(self):
-        """ Sets up a test database """
-        self.execute_queries()
-        self.db_clean()
+    
 
 
-db = DbConnection()
-db.db_connection()
-db.execute_queries()
-db.commit_changes()
+

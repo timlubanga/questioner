@@ -6,7 +6,13 @@ python:
 before_install:
   - "pip install -U pip"
 env:
-  DATABASE_URL="database = 'questioner_db', user = 'postgres', password = '', host = 'localhost',port='5432'"
+  export DATABASE_URL="postgresql://postgres:password@localhost/questioner_db"
+  export FLASK_APP="run.py"
+  export SECRET="timothy"
+  export APP_SETTING=development
+  export App_Test=testing
+  export FLASK_ENV=development
+  export TEST_DATABASE_URL="postgresql://postgres:password@localhost/test_questioner"
 
 install:
  - pip install -r requirements.txt
@@ -22,6 +28,7 @@ services:
 
 before_script:
   - psql -c "CREATE DATABASE questioner_db;" -U postgres
+  "CREATE DATABASE test_questioner_db;" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public to postgres ;" -U postgres
 script:
  - python -m pytest

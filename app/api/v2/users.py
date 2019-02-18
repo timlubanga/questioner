@@ -1,7 +1,7 @@
 
 from flask import Flask,jsonify, make_response, request
 import datetime
-from .utils.helper import Helpers
+from .utils.helper import check_if_user_exists,retriveve_all_users,insert_new_user
 from flask_restful import Resource, Api
 from .utils.validator import  UserSchema
 from flask_jwt_extended import jwt_required,get_jwt_identity
@@ -11,7 +11,6 @@ api = Api(app)
 
 class Users(Resource):
 	def __init__(self):
-		self.user=Helpers()
 		self.validate=UserSchema()
 	
 	def post(self):
@@ -37,11 +36,11 @@ class Users(Resource):
 		if data.errors:
 			return jsonify(data.errors)
 
-		result=self.user.check_if_user_exists(params['username'])
+		result=check_if_user_exists(params['username'])
 		if result:
 			return make_response(jsonify({"status":200,"message":"The user record exists"}),200)
 		else:
-			self.user.insert_new_user(params)
+			insert_new_user(params)
 			return {
 			"message":"user created successfully"
 			}
@@ -56,7 +55,7 @@ class Users(Resource):
 		   	"status" : 401,
 		   	"message" : "you are not authorized to access this endpoint"}),401)
 
-		result=self.user.retriveve_all_users()
+		result=retriveve_all_users()
 		if result:
 			return make_response(jsonify({
 		   	"status" : 200,

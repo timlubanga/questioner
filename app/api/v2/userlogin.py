@@ -1,7 +1,7 @@
 
 from flask_restful import Resource,reqparse,Api
 from flask import Flask
-from .utils.helper import Helpers
+from .utils.helper import check_if_user_exists
 from .utils.validator import Login
 from flask import Flask, jsonify, make_response, request
 from flask_jwt_extended import (create_access_token, JWTManager,get_jwt_identity)
@@ -12,7 +12,6 @@ import json
 class Userlogin(Resource):
 
 	def __init__(self):
-		self.user=Helpers()
 		self.validate=Login()
 
 
@@ -32,7 +31,7 @@ class Userlogin(Resource):
 		result=self.validate.load(data)
 		if result.errors:
 			return {"error":result.errors}
-		user=self.user.check_if_user_exists(data['username'])
+		user=check_if_user_exists(data['username'])
 
 		if not user:
 			return {"message":"user does not exist"}

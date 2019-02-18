@@ -1,31 +1,36 @@
-""" Configuration file for the API """
+'''Application configuration file'''
+import os
 
-class Config(object):
-    """ Parent configuration class """
+class Config:
+    """Parent configuration class"""
     DEBUG = False
-    TESTING = False
+    SECRET = os.getenv('SECRET_KEY')
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 
 class DevelopmentConfig(Config):
-    """ Configuration for development environment """
+    """Development environment configurations"""
     DEBUG = True
-
-class StagingConfig(Config):
-    """ Configuration for the staging environment """
-    DEBUG = True
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
 class TestingConfig(Config):
-    """ Configuration for the testing environment """
+    """Testing environment configurations"""
     TESTING = True
+    DEBUG = True
+    DATABASE_URL = os.getenv("TEST_DATABASE_URL")
+
+class StagingConfig(Config):
+    """Staging environment configurations"""
+    DEBUG = True
 
 class ProductionConfig(Config):
-    """ Configuration for the production environment """
+    """Production environment configurations"""
     DEBUG = False
     TESTING = False
+    DATABASE_URL = os.getenv("DATABASE_URL") # Specify database URL for production deployment
 
 app_config = {
     'development': DevelopmentConfig,
-    'debug': DevelopmentConfig,
     'testing': TestingConfig,
     'staging': StagingConfig,
-    'production': ProductionConfig
+    'production': ProductionConfig,
 }
