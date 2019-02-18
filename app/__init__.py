@@ -5,8 +5,8 @@ import sys
 topdir = os.path.join(os.path.dirname(__file__),"../" )
 sys.path.append(topdir)
 from instance.config import app_config
-from api.v2.maindb import maindb, test_main_db
-from api.v2.utils.helper import get_connection
+from .api.v2.maindb import maindb, test_main_db
+from .api.v2.utils.helper import get_connection
 
 
 def create_app(name_conf):
