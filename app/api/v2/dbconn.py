@@ -1,11 +1,11 @@
 
 import psycopg2
 
-def db_connection(url):
+'''def db_connection(url):
 
     global cur,connection
     connection=psycopg2.connect(url)
-    cur = connection.cursor()
+    cur = connection.cursor()'''
 
 def db_destroy():
     DROP_DATABASE = """
@@ -60,7 +60,11 @@ def create_database_tables():
                             meetup_id INTEGER NOT NULL, 
                             user_id INTEGER NOT NULL, 
                             response VARCHAR (200)
-        );"""
+        )"""
+    return [TABLE_USERS,TABLE_MEETUPS,TABLE_QUESTIONS,TABLE_RSVPS]
+def create_admin(url):
+    connection=psycopg2.connect(url)
+    cur=connection.cursor()
 
     ADMIN_USER = """
                         INSERT INTO users(firstname,lastname,
@@ -77,15 +81,20 @@ def create_database_tables():
                             true
                         )
         """
+    cur.execute(ADMIN_USER)
+    connection.commit() 
+    cur.close()
 
-    return [TABLE_USERS,TABLE_MEETUPS,TABLE_QUESTIONS,TABLE_RSVPS,ADMIN_USER]
 
-def execute_queries():
+def execute_create_tables(url):
+    connection=psycopg2.connect(url)
     cur = connection.cursor()
         #curs.execute(self.db_clean())
     for query in create_database_tables():
-            cur.execute(query)
-            connection.commit() 
+        cur.execute(query)
+        connection.commit() 
+    cur.close()
+
 
 def drop_table_queries():
     drop_queries = [
@@ -98,12 +107,14 @@ def drop_table_queries():
         ]
     return drop_queries
 
-def destroy():
+def destroy(url):
+    connection=psycopg2.connect(url)
     cur = connection.cursor()
     queries = drop_table_queries()
     for query in queries:
         cur.execute(query)
     connection.commit()
+    cur.close()
 
     
 

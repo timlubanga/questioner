@@ -1,6 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from flask import request
+
 
 
 def get_connection(url):
@@ -11,12 +11,13 @@ def get_connection(url):
 	cur = connection.cursor(cursor_factory=RealDictCursor)
 	
 def check_if_user_exists(username):
-	cur = connection.cursor(cursor_factory=RealDictCursor)	
+	cur = connection.cursor(cursor_factory=RealDictCursor)
 	query="SELECT * FROM users where username= %s".format("username")
 	cur.execute(query,(username,))
 	result=cur.fetchone()
-	return result
+	connection.commit()
 	cur.close()
+	return result
 	
 
 def check_if_user_exists_by_id(_id):
@@ -24,16 +25,18 @@ def check_if_user_exists_by_id(_id):
 	query="SELECT * FROM users where username= %s".format("_id")
 	cur.execute(query,(_id,))
 	result=cur.fetchone()
-	return result
+	connection.commit()
 	cur.close()
+	return result
 
 def retriveve_all_users():
 	cur = connection.cursor(cursor_factory=RealDictCursor)	
 	query = "SELECT * FROM users" 
 	cur.execute(query)
 	result = cur.fetchall()
-	return result
+	connection.commit()
 	cur.close()
+	return result
 
 def insert_new_user(params):
 	cur = connection.cursor(cursor_factory=RealDictCursor)	
@@ -48,8 +51,9 @@ def check_if_ameetup_exist(_id):
 	query="SELECT * FROM meetups where meetup_id=%s".format(_id)
 	cur.execute(query,(_id,))
 	row=cur.fetchone()
-	return row
+	connection.commit()
 	cur.close()
+	return row
 
 def insert_new_meetup(data,_id):
 	cur = connection.cursor(cursor_factory=RealDictCursor)	
@@ -70,6 +74,8 @@ def check_a_meetup_record_by_topic_name(topic):
 	query = "SELECT * FROM meetups where topic = %s"
 	cur.execute(query, (topic, ))
 	result = cur.fetchall()
+	connection.commit()
+	cur.close()
 	return result
 		
 
@@ -87,6 +93,8 @@ def get_all_meetups():
 	query = "SELECT * FROM meetups" 
 	cur.execute(query)
 	result=cur.fetchall()
+	connection.commit()
+	cur.close()
 	return result
 
 
@@ -103,12 +111,14 @@ def check_if_a_question_exists(_id):
 	query = "SELECT * FROM questions where id = %s".format(_id)
 	cur.execute(query, (_id, ))
 	result = cur.fetchall()
+	connection.commit()
 	return result
 def fetch_all_question_records():
 	cur = connection.cursor(cursor_factory=RealDictCursor)	
 	query = "SELECT * FROM questions" 
 	cur.execute(query)
 	result=cur.fetchall()
+	connection.commit()
 	return result
 	
 def upvote_aquestion(_id):

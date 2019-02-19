@@ -1,14 +1,15 @@
-from .dbconn import db_connection, destroy, execute_queries
+from .dbconn import destroy, execute_create_tables,create_admin
+from .utils.helper import check_if_user_exists
 
 def maindb(url):
-	db_connection(url)
-	destroy()
-	execute_queries()
+	destroy(url)
+	execute_create_tables(url)
+	create_admin(url)
 
 def test_main_db(url):
-	db_connection(url)
-	destroy()
-	execute_queries()
+	destroy(url)
+	execute_create_tables(url)
+	create_admin(url)
 	
 
 
