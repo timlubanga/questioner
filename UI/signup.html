@@ -11,7 +11,7 @@
 <header>
 <div class="container">
   <div id="branding">
-<h1>Questioner</h1>
+<h1>CodeIgniters</h1>
 </div>
 <nav>
   <ul>
@@ -24,14 +24,23 @@
 <div id="wrapper">
   <div class="container">
       <div class="form">
-        <h2>Registration Form</h2>
-      <input type="text" name="firstname" placeholder="firstname">
-      <input type="text" name="lastname" placeholder="lastname">
-      <input type="text" name="email" placeholder="Email">
-      <input type="password" name="password_1" placeholder="password">
-      <input type="password" name="password_2" placeholder="confirm password">
-      <br>
+        <h2>Contribution List</h2>
+        <h3>total contributions</h3><h4 id="total">0</h4>
+        <hr>
+      <input class="cls1" type="text" name="firstname" placeholder="firstname">
+      <input class="cls2" type="text" name="lastname" placeholder="lastname">
+      <input class="cls3" type="text" name="amount" placeholder="amount">
       <button type="submit" name="register">submit</button>
+      <br>
+      <br>
+      <table id="table">
+        <tr>
+      <th>firstname</th>
+      <th>lastname</th>
+      <th>contribution</th>
+      <th>Action</th>
+      </tr>
+      </table>
       </div>
       </div>
       </div>
@@ -41,5 +50,6 @@
 
 </footer>
 </header>
+<script src="contribute.js"></script>
 </body>
 </html>
