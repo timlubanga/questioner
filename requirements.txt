@@ -35,7 +35,7 @@ more-itertools==5.0.0
 pathlib2==2.3.3
 pluggy==0.8.0
 psycopg2-binary==2.7.6.1
-py==1.7.0
+py==1.10.0
 pycparser==2.19
 PyJWT==1.4.2
 pylint==1.9.4
